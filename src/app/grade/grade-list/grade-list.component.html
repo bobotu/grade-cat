@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="weui-search-bar search-bar" [class.weui-search-bar_focusing]="searching">
+    <form class="weui-search-bar__form">
+      <div class="weui-search-bar__box">
+        <i class="weui-icon-search"></i>
+        <input [formControl]="search" name="search" type="search" class="weui-search-bar__input" id="search_input"
+               placeholder="搜索"/>
+        <a (click)="reset()" class="weui-icon-clear" id="search_clear"></a>
+      </div>
+      <label (click)="searching = true" for="search_input" class="weui-search-bar__label">
+        <i class="weui-icon-search"></i>
+        <span>搜索</span>
+      </label>
+    </form>
+    <a (click)="searching = false; reset();" class="weui-search-bar__cancel-btn"
+       id="search_cancel">取消</a>
+  </div>
+  <div class="body">
+    <div class="grades-table">
+      <table>
+        <thead>
+        <tr>
+          <th>课程名</th>
+          <th>学分</th>
+          <th>分数</th>
+          <th>均分差</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let detail of currentDetails; trackBy: trackByName"
+            [class.td-selected]="selectedCourse == detail.name"
+            (click)="selectCourse.next(detail.name)">
+          <td>{{ detail.name }}</td>
+          <td>{{ detail.credit }}</td>
+          <td>{{ detail | gradeFormat: 'grade' }}</td>
+          <td [appColorDev]="detail.dev">{{ detail | gradeFormat: 'dev' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grades-chart">
+      <!--提示-->
+      <div *ngIf="loading" class="chart-mask-transparent chart-loading">
+        <div class="weui-loadmore">
+          <i class="weui-loading"></i>
+          <span class="weui-loadmore__tips">正在加载</span>
+        </div>
+      </div>
+      <div *ngIf="!gradeAnalysis" class="chart-mask">
+        <app-load-tips [loading]="loading">
+          点击成绩行显示对应课程的信息
+        </app-load-tips>
+      </div>
+
+      <!--表格-->
+      <p><span>{{ selectedCourse }}</span></p>
+      <canvas *ngIf="selectedCourse" baseChart
+              chartType="doughnut"
+              [data]="gradeAnalysis.data"
+              [labels]="gradeAnalysis.labels"
+              [options]="gradeChartOptions">
+      </canvas>
+    </div>
+  </div>
+</div>

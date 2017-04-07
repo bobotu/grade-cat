@@ -1,0 +1,49 @@
+<app-alert [show]="isErr" title="登录失败" (confirm)="onConfirm()">
+  {{ errMsg }}
+</app-alert>
+<div class="container">
+  <h1>登录</h1>
+  <form #loginForm="ngForm" class="weui-cells_form" novalidate>
+    <div class="weui-cells">
+      <div class="weui-cell"
+           [class.weui-cell_warn]="usernameInput.touched && !usernameInput.valid">
+        <div class="weui-cell__hd">
+          <label class="weui-label">学号</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" type="text"
+                 placeholder="输入学号"
+                 #usernameInput="ngModel" pattern="[0-9]+"
+                 [(ngModel)]="username" name="username" required>
+        </div>
+        <div class="weui-cell__ft">
+          <i class="weui-icon-warn"></i>
+        </div>
+      </div>
+      <div class="weui-cell"
+           [class.weui-cell_warn]="passwordInput.touched && !passwordInput.valid">
+        <div class="weui-cell__hd">
+          <label class="weui-label">密码</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" type="password"
+                 #passwordInput="ngModel"
+                 placeholder="输入密码"
+                 [(ngModel)]="password" name="password" required>
+        </div>
+        <div class="weui-cell__ft">
+          <i class="weui-icon-warn"></i>
+        </div>
+      </div>
+    </div>
+    <div class="submit">
+      <button class="weui-btn weui-btn_primary"
+              [disabled]="!loginForm.valid"
+              type="button"
+              (click)="login()">
+        <i class="weui-loading" *ngIf="loading"></i>
+        登录
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,25 @@
+<div class="container">
+  <article class="grades-history-container weui-article">
+    <h1>历年均分</h1>
+    <div>
+      <canvas baseChart
+              [data]="meanHistoryScore"
+              [labels]="meanHistoryLabels"
+              chartType="line"
+              [legend]="false">
+      </canvas>
+    </div>
+  </article>
+  <div class="weui-grids term-selectors">
+    <a *ngFor="let term of terms"
+       [routerLink]="['../term-detail', term.term | termURL]"
+       class="term-selector weui-grid">
+      <div class="term-description">
+        <p>前{{ term.rank }}%</p>
+      </div>
+      <p class="weui-grid__label">
+        {{ term.term }}
+      </p>
+    </a>
+  </div>
+</div>

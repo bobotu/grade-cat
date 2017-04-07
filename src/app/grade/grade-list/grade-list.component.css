@@ -1,0 +1,71 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.grades-table {
+  flex: 1;
+  overflow: scroll;
+}
+
+.grades-chart {
+  height: 140px;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  border-top: solid 1px #E1E1E1;
+  z-index: 10;
+}
+
+.grades-chart p {
+  width: 1.5em;
+  line-height: 1.2em;
+  position: absolute;
+  left: 10px;
+  max-height: calc(100% - 10px);
+  overflow-y: scroll;
+}
+
+.grades-chart canvas {
+  height: 100%;
+}
+
+.chart-mask, .chart-mask-transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: #ffffff;
+}
+
+.chart-mask-transparent {
+  background-color: rgba(255, 255, 255, .8);
+}
+
+.chart-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.td-selected {
+  background-color: #f8f8f8;
+}
+
+.search-bar {
+
+}
+
+.body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-direction: column;
+  flex: 1;
+}

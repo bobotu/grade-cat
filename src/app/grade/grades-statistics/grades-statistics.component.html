@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="header">
+    <p class="name">{{ name }}</p>
+    <p class="id">{{ id }}</p>
+  </div>
+  <div class="statistics">
+    <div class="row">
+      <div class="info">
+        <p class="description">均分</p>
+        <p class="value">{{ mean }}</p>
+      </div>
+      <div class="info">
+        <p class="description">排名</p>
+        <p class="value">{{ rank }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+      <a (click)="logout()" class="weui-footer__link">退出</a>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+:host >>> .container {
+  background-color: #F8F8F8;
+  padding-top: 15vh;
+
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+:host >>> h1 {
+  text-align: center;
+}
+
+:host >>> .submit {
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+:host >>> .switch {
+  color: #A9A9A9;
+  display: block;
+  text-align: center;
+}
+
+:host >>> .switch:visited {
+  color: #A9A9A9;
+}

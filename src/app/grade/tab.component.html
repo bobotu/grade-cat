@@ -1,0 +1,25 @@
+<app-alert title="获取数据失败" [show]="isErr" (confirm)="retry()">
+  获取失败，请稍后点击确定重试
+</app-alert>
+<div id="loadingToast" *ngIf="loading">
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+    <i class="weui-loading weui-icon_toast"></i>
+    <p class="weui-toast__content">数据加载中</p>
+  </div>
+</div>
+<div class="weui-tab">
+  <div class="weui-tab__panel">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!--TabBar 底栏-->
+  <div class="weui-tabbar">
+    <a *ngFor="let tabItem of tabItems" class="weui-tabbar__item"
+       [routerLink]="tabItem.url"
+       routerLinkActive="weui-bar__item_on">
+      <img [src]="tabItem.img" [alt]="tabItem.name" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label">{{ tabItem.name }}</p>
+    </a>
+  </div>
+</div>

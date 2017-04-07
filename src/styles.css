@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/weui.min.css";
+
+html, body {
+  height: 100%;
+}
+
+app-root {
+  height: 100%;
+}
+
+table {
+  border-spacing: 0;
+  min-width: 100%;
+}
+
+td, th {
+  border-bottom: .1rem solid #e1e1e1;
+  padding: 0.8rem 1.1rem;
+  text-align: left;
+}
+
+td:first-child, th:first-child {
+  padding-left: 15px;
+}
+
+td:last-child, th:last-child {
+  padding-right: 15px;
+}

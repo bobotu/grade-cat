@@ -1,0 +1,27 @@
+.grades-history-container {
+  background-color: #F8F8F8;
+}
+
+canvas {
+  width: 100%;
+}
+
+.term-selectors {
+  background-color: #FFFFFF;
+}
+
+.term-description {
+  height: 40px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.term-description p {
+  font-size: 12px;
+  text-align: center;
+  color: #000000;
+}
