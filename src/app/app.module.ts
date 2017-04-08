@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from "@angular/router";
-import { rootRouterConfig } from "./app.route";
+import { RouteReuseStrategy, RouterModule } from "@angular/router";
+import { CustomReuseStrategy, rootRouterConfig } from "./app.route";
 import { LoginComponent } from "./auth/login/login.component";
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import { AuthService } from "./service/auth.service";
@@ -24,7 +24,7 @@ import { ShareModule } from "./share.module";
     RouterModule.forRoot(rootRouterConfig),
     ShareModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, {provide: RouteReuseStrategy, useClass: CustomReuseStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

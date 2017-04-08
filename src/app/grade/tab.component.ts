@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GradesService } from "../service/grades.service";
-import { Router } from "@angular/router";
+import { Router, RouteReuseStrategy } from "@angular/router";
 import { AuthService } from "../service/auth.service";
+import { CustomReuseStrategy } from "../app.route";
 
 @Component({
   selector: 'app-main-tab',
@@ -11,6 +12,8 @@ import { AuthService } from "../service/auth.service";
 export class TabComponent implements OnInit {
   isErr = false;
   loading: boolean;
+  confirmText = "重试";
+  title = "获取数据失败";
 
   tabItems = [
     {
@@ -37,10 +40,16 @@ export class TabComponent implements OnInit {
 
   private fetch() {
     this.loading = true;
-    this._grades.fetchGradeData()
+    let sub = this._grades.fetchGradeData()
       .subscribe(
-        ok => ok ? this.onSuccess() : this.onError(),
-        err => this.onError(err),
+        ok => {
+          ok ? this.onSuccess() : this.onError();
+          sub.unsubscribe();
+        },
+        err => {
+          this.onError(err);
+          sub.unsubscribe();
+        },
       )
   }
 
@@ -55,16 +64,18 @@ export class TabComponent implements OnInit {
   }
 
   onError(err?: any) {
-    console.error(err);
     this.loading = false;
     this.isErr = true;
 
     if (err.status == 401) {
-      this.goLogin()
+      this.confirmText = "";
+      this.title = "授权过期"
     }
   }
 
   goLogin() {
-    this._router.navigate(["/"], {replaceUrl: true})
+    localStorage.clear();
+    this._auth.clearToken();
+    this._router.navigate(["/auth/login"], {replaceUrl: true});
   }
 }

@@ -3,18 +3,14 @@ import { AsyncSubject, Observable, Subject } from "rxjs";
 import { GradeDetail, GradeDistribute } from "../grade/grade.model";
 import { Http } from "@angular/http";
 import { AuthService } from "./auth.service";
-import { Router } from "@angular/router";
 import "rxjs/add/operator/map"
 import "rxjs/add/operator/mapTo"
 import { environment } from "../../environments/environment";
 
-interface DistributeStore {
-  [index: string]: GradeDistribute[]
-}
-
 const API_URL = !environment.production ? "http://127.0.0.1:5000" : "";
 const DATA_KEY = "GRADES_RAW";
 const VERSION_KEY = "GRADES_VERSION";
+const FETCH_TIMEOUT = 10000;
 
 @Injectable()
 export class GradesService {
@@ -25,39 +21,35 @@ export class GradesService {
   id: string;
 
   subjects: GradeDetail[];
-  gradeDistribute: DistributeStore;
+  gradeDistribute: {[index: string]: GradeDistribute[]};
 
   done = new AsyncSubject<boolean>();
 
-  constructor(private http: Http, private _auth: AuthService,
-              private _router: Router) {}
+  constructor(private http: Http, private _auth: AuthService) {}
 
   fetchGradeData(): Observable<boolean> {
+    let version = localStorage.getItem(VERSION_KEY);
+    if (!version) {
+      return this.fetchFromRemote()
+        .timeoutWith(FETCH_TIMEOUT, Observable.of(false))
+    }
+
     let data = {
       jwt: this._auth.token,
-      version: parseInt(localStorage.getItem(VERSION_KEY)),
+      version: parseInt(version),
     };
-
-    let result = new Subject<boolean>();
-
-    this.http.post(`${API_URL}/api/check`, data)
-      .subscribe(
-        _ => {
-          this.fetchFromLocal().subscribe(r => result.next(r))
-        },
-        err => {
-          if (err.status == 401) {
-            this._auth.clearToken();
-            this._router.navigate(["/"], {replaceUrl: true});
-          } else if (err.status == 410) {
-            this.fetchFromRemote().subscribe(r => result.next(r))
-          } else {
-            result.next(false)
-          }
+    return this.http.post(`${API_URL}/api/check`, data)
+      .flatMap(_ => this.fetchFromLocal())
+      .catch(err => {
+        if (err.status == 401) {
+          return Observable.throw(err)
+        } else if (err.status == 410) {
+          return this.fetchFromRemote()
+        } else {
+          return Observable.of(false)
         }
-      );
-
-    return result;
+      })
+      .timeoutWith(FETCH_TIMEOUT, Observable.of(false));
   }
 
   private fetchFromRemote(): Observable<boolean> {
@@ -72,6 +64,7 @@ export class GradesService {
           this.processGrades(data);
           return true;
         } else {
+          localStorage.removeItem(VERSION_KEY);
           return false;
         }
       })

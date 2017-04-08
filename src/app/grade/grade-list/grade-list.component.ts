@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { GradeDetail, GradeDistribute } from "../grade.model";
 import { GradesService } from "../../service/grades.service";
 import { Subject } from "rxjs";
 import { FormControl } from "@angular/forms";
+import { BaseChartDirective } from "ng2-charts";
 
 @Component({
   selector: "app-grade-list",
@@ -28,8 +29,11 @@ export class GradeListComponent implements OnInit {
   searching = false;
   search = new FormControl();
 
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
   constructor(private _activatedRoute: ActivatedRoute,
-              private _grades: GradesService) {}
+              private _grades: GradesService) {
+  }
 
   ngOnInit() {
     this.term = this._activatedRoute.snapshot.params["term"];
@@ -72,13 +76,18 @@ export class GradeListComponent implements OnInit {
   }
 
   showChart(data: GradeDistribute[]) {
-    this.gradeAnalysis = {data: [], labels: []};
-    this.loading = false;
-
+    let counts = [];
+    let labels = [];
     data.forEach(g => {
-      this.gradeAnalysis.data.push(g.count);
-      this.gradeAnalysis.labels.push(g.label);
-    })
+      counts.push(g.count);
+      labels.push(g.label);
+    });
+
+    if (this.chart) {
+      this.chart.chart.config.data.labels = labels;
+    }
+    this.gradeAnalysis = {data: counts, labels: labels};
+    this.loading = false;
   }
 
   reset() {

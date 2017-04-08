@@ -53,6 +53,8 @@
 .footer {
   margin-top: auto;
   text-align: center;
+
+  margin-bottom: 5px;
 }
 
 .container {
@@ -61,8 +63,4 @@
   justify-content: flex-start;
   align-items: stretch;
   flex-direction: column;
-}
-
-.footer a {
-  color: #586C94;
 }

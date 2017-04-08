@@ -3,7 +3,7 @@
 </app-alert>
 <div class="container">
   <h1>登录</h1>
-  <form #loginForm="ngForm" class="weui-cells_form" novalidate>
+  <form #loginForm="ngForm" (ngSubmit)="login()" class="weui-cells_form" novalidate>
     <div class="weui-cells">
       <div class="weui-cell"
            [class.weui-cell_warn]="usernameInput.touched && !usernameInput.valid">
@@ -38,9 +38,7 @@
     </div>
     <div class="submit">
       <button class="weui-btn weui-btn_primary"
-              [disabled]="!loginForm.valid"
-              type="button"
-              (click)="login()">
+              [disabled]="!loginForm.valid">
         <i class="weui-loading" *ngIf="loading"></i>
         登录
       </button>

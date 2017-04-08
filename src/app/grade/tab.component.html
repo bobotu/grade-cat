@@ -1,5 +1,10 @@
-<app-alert title="获取数据失败" [show]="isErr" (confirm)="retry()">
-  获取失败，请稍后点击确定重试
+<app-alert [title]="title" [show]="isErr"
+           [confirmText]="confirmText"
+           alternativeText="返回登录"
+           (alternative)="goLogin()"
+           (confirm)="retry()">
+  获取数据失败
+  重试或重新登录
 </app-alert>
 <div id="loadingToast" *ngIf="loading">
   <div class="weui-mask_transparent"></div>

@@ -27,3 +27,7 @@ td:first-child, th:first-child {
 td:last-child, th:last-child {
   padding-right: 15px;
 }
+
+a, button, input, textarea, canvas, tr, label, td {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}

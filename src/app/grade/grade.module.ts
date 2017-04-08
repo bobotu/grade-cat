@@ -1,7 +1,7 @@
 import { TabComponent } from "./tab.component";
-import { RouteReuseStrategy, RouterModule } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
-import { CustomReuseStrategy, gradeRouteConfig } from "./grade.route";
+import { gradeRouteConfig } from "./grade.route";
 import { CommonModule } from "@angular/common";
 import { GradeListComponent } from "./grade-list/grade-list.component";
 import { PersonalGradesComponent } from './personal-grades/personal-grades.component';
@@ -37,7 +37,7 @@ import { ShareModule } from "../share.module";
   exports: [
     TabComponent
   ],
-  providers: [GradesService, {provide: RouteReuseStrategy, useClass: CustomReuseStrategy},]
+  providers: [GradesService]
 })
 export class GradeModule {
 }

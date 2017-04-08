@@ -13,7 +13,17 @@ import { Component, EventEmitter, Input, Output } from "@angular/core"
           <ng-content></ng-content>
         </div>
         <div class="weui-dialog__ft">
-          <a (click)="onConfirm.emit()" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+          <a *ngIf="alternativeText != ''"
+             (click)="onAlternative.emit()"
+             class="weui-dialog__btn weui-dialog__btn_default">
+            {{ alternativeText }}
+          </a>
+
+          <a *ngIf="confirmText != ''"
+             (click)="onConfirm.emit()"
+             class="weui-dialog__btn weui-dialog__btn_primary">
+            {{ confirmText }}
+          </a>
         </div>
       </div>
     </div>`
@@ -21,5 +31,8 @@ import { Component, EventEmitter, Input, Output } from "@angular/core"
 export class AlertComponent {
   @Input() show: boolean = false;
   @Input() title: string = "";
+  @Input() confirmText: string = "确定";
+  @Input() alternativeText: string = "";
   @Output('confirm') onConfirm = new EventEmitter<boolean>();
+  @Output('alternative') onAlternative = new EventEmitter<boolean>();
 }
