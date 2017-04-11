@@ -1,0 +1,78 @@
+<div *ngIf="show" class="container">
+  <div class="weui-mask"></div>
+  <div class="dialog">
+    <i (click)="close()" class="weui-icon-cancel cancel"></i>
+    <h1 class="title">错误反馈</h1>
+    <form class="weui-cells_form" (ngSubmit)="submit()" #fbForm="ngForm" novalidate>
+      <p class="weui-cells__title">联系信息</p>
+      <div class="weui-cells">
+        <div class="weui-cell" [class.weui-cell_warn]="emailInput.touched && !emailInput.valid">
+          <div class="weui-cell__hd">
+            <label class="weui-label">邮箱</label>
+          </div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="email"
+                   [(ngModel)]="email" #emailInput="ngModel"
+                   pattern="\S*@\S*\.\S*"
+                   placeholder="联系方式" name="email" required>
+          </div>
+          <div class="weui-cell__ft">
+            <i class="weui-icon-warn"></i>
+          </div>
+        </div>
+      </div>
+
+      <p class="weui-cells__title">错误详情</p>
+      <div class="weui-cells">
+        <div class="weui-cell" [class.weui-cell_warn]="descInput.touched && !descInput.valid">
+          <div class="weui-cell__bd">
+            <textarea class="weui-textarea"
+                      [(ngModel)]="description" #descInput="ngModel"
+                      placeholder="请输入错误描述" rows="3"
+                      name="description" required></textarea>
+          </div>
+          <div class="weui-cell__ft">
+            <i class="weui-icon-warn"></i>
+          </div>
+        </div>
+      </div>
+
+      <p class="weui-cells__title">反馈截图</p>
+      <div class="weui-cells">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <div class="weui-uploader">
+              <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files">
+                  <li *ngFor="let img of imgUrls; trackBy: track"
+                      [ngStyle]="{ 'background-image': 'url(' + img + ')'}"
+                      class="weui-uploader__file"></li>
+                </ul>
+                <div class="weui-uploader__input-box">
+                  <input (change)="addImg($event.target.files)"
+                         class="weui-uploader__input" name="imgs"
+                         type="file" accept="image/*">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button *ngIf="!loading && !error && !done" class="weui-btn weui-btn_primary submit">
+        <i class="weui-loading" *ngIf="uploading"></i>
+        提交反馈
+      </button>
+      <button *ngIf="loading && !done" class="weui-btn weui-btn_primary submit weui-btn_loading" disabled>
+        <i class="weui-loading"></i>
+        提交中
+      </button>
+      <button *ngIf="!loading && error && !done" class="weui-btn submit weui-btn_warn">
+        出错了 点击重试
+      </button>
+      <button *ngIf="done" class="weui-btn weui-btn_primary submit weui-btn_disabled" disabled>
+        反馈成功
+      </button>
+    </form>
+  </div>
+</div>

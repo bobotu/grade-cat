@@ -17,11 +17,30 @@
   </div>
   <div class="weui-footer footer">
     <div class="weui-footer__links">
-      <a (click)="logout()" class="weui-footer__link">退出登录</a>
-      <a class="weui-footer__link" href="mailto:grade-feedback@1122.moe">错误反馈</a>
+      <a class="weui-footer__link" (click)="logout()">退出登录</a>
+      <a class="weui-footer__link" (click)="feedback = true">错误反馈</a>
+      <a class="weui-footer__link" (click)="about = true">使用说明</a>
     </div>
     <p class="weui-footer__text">
       数据错误，使用异常请截图后进行反馈
     </p>
+  </div>
+  <div class="dialogs">
+    <app-feedback [show]="feedback" (onClose)="feedback = !feedback"></app-feedback>
+    <app-alert title="使用说明" [show]="about" confirmText="关闭" (confirm)="about = !about">
+      1.所有文字成绩均被量化，量化规则如下:<br>
+      通过：85<br>
+      不通过：59<br>
+      优秀：90<br>
+      良好：85<br>
+      及格：60<br>
+      不及格：59<br>
+      <br>
+      2.密码为身份证后六位，留学生和个别同学的默认密码为123456<br>
+      <br>
+      3.均分已经将60分以下的成绩默认60分处理，四级并不算在均分范围内。<br>
+      <br>
+      <strong>本页面所提供均分和排名只作为参考，若出现数据与教务处系统不符，以教务处系统为准。</strong>
+    </app-alert>
   </div>
 </div>

@@ -13,7 +13,7 @@ import { GradeFormatPipe } from './grade-list/grade-format.pipe';
 import { ColorDevDirective } from './grade-list/color-dev.directive';
 import { LoadTipsComponent } from './grade-list/load-tips/load-tips.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ShareModule } from "../share.module";
+import { ShareModule } from "../shared/share.module";
 
 @NgModule({
   declarations: [

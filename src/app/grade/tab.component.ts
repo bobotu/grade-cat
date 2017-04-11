@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GradesService } from "../service/grades.service";
-import { Router, RouteReuseStrategy } from "@angular/router";
-import { AuthService } from "../service/auth.service";
-import { CustomReuseStrategy } from "../app.route";
+import { GradesService } from '../service/grades.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-main-tab',
@@ -12,18 +11,18 @@ import { CustomReuseStrategy } from "../app.route";
 export class TabComponent implements OnInit {
   isErr = false;
   loading: boolean;
-  confirmText = "重试";
-  title = "获取数据失败";
+  confirmText = '重试';
+  title = '获取数据失败';
 
   tabItems = [
     {
-      name: "统计分析",
-      img: "../../assets/statistics_icon.png",
-      url: "grades-statistics"
+      name: '统计分析',
+      img: '../../assets/statistics_icon.png',
+      url: 'grades-statistics'
     }, {
-      name: "我的成绩",
-      img: "../../assets/grades_icon.png",
-      url: "my-grades"
+      name: '我的成绩',
+      img: '../../assets/grades_icon.png',
+      url: 'my-grades'
     }];
 
   constructor(private _grades: GradesService,
@@ -33,14 +32,14 @@ export class TabComponent implements OnInit {
   ngOnInit() {
     if (!this._auth.token) {
       this.goLogin();
-      return
+      return;
     }
-    this.fetch()
+    this.fetch();
   }
 
   private fetch() {
     this.loading = true;
-    let sub = this._grades.fetchGradeData()
+    const sub = this._grades.fetchGradeData()
       .subscribe(
         ok => {
           ok ? this.onSuccess() : this.onError();
@@ -49,8 +48,8 @@ export class TabComponent implements OnInit {
         err => {
           this.onError(err);
           sub.unsubscribe();
-        },
-      )
+        }
+      );
   }
 
   retry() {
@@ -67,15 +66,15 @@ export class TabComponent implements OnInit {
     this.loading = false;
     this.isErr = true;
 
-    if (err.status == 401) {
-      this.confirmText = "";
-      this.title = "授权过期"
+    if (err && err.status === 401) {
+      this.confirmText = '';
+      this.title = '授权过期';
     }
   }
 
   goLogin() {
     localStorage.clear();
-    this._auth.clearToken();
-    this._router.navigate(["/auth/login"], {replaceUrl: true});
+    this._auth.reset();
+    this._router.navigate(['/auth/login'], {replaceUrl: true});
   }
 }

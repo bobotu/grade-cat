@@ -1,15 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { GradeDetail, GradeDistribute } from "../grade.model";
-import { GradesService } from "../../service/grades.service";
-import { Subject } from "rxjs";
-import { FormControl } from "@angular/forms";
-import { BaseChartDirective } from "ng2-charts";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { GradeDetail, GradeDistribute } from '../grade.model';
+import { GradesService } from '../../service/grades.service';
+import { Subject } from 'rxjs/Subject';
+import { FormControl } from '@angular/forms';
+import { BaseChartDirective } from 'ng2-charts';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
-  selector: "app-grade-list",
-  templateUrl: "./grade-list.component.html",
-  styleUrls: ["./grade-list.component.css"]
+  selector: 'app-grade-list',
+  templateUrl: './grade-list.component.html',
+  styleUrls: ['./grade-list.component.css']
 })
 export class GradeListComponent implements OnInit {
   term: string;
@@ -21,7 +25,7 @@ export class GradeListComponent implements OnInit {
   gradeChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    legend: {position: 'right'},
+    legend: {position: 'right'}
   };
   loading: boolean;
   selectCourse = new Subject<string>();
@@ -32,11 +36,12 @@ export class GradeListComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   constructor(private _activatedRoute: ActivatedRoute,
-              private _grades: GradesService) {
+              private _grades: GradesService,
+              private _auth: AuthService) {
   }
 
   ngOnInit() {
-    this.term = this._activatedRoute.snapshot.params["term"];
+    this.term = this._activatedRoute.snapshot.params['term'];
     this.initDetails();
 
     this.selectCourse
@@ -54,7 +59,11 @@ export class GradeListComponent implements OnInit {
       .map(data => this.filterCourse(data))
       .subscribe(data => {
         this.currentDetails = data;
-      })
+      });
+
+    this._auth.onReset.subscribe(_ => {
+      this.gradeAnalysis = {data: [], labels: []};
+    });
   }
 
   trackByName(index: number, grade: GradeDetail) {
@@ -65,19 +74,19 @@ export class GradeListComponent implements OnInit {
     this.allDetails = [];
 
     if (this.term) {
-      return this._grades.getTermGradeDetails(this.term).subscribe(details => {
+      this._grades.getTermGradeDetails(this.term).subscribe(details => {
         this.allDetails = this.currentDetails = details;
-      })
+      });
     } else {
-      return this._grades.getAllGradeDetails().subscribe(details => {
+      this._grades.getAllGradeDetails().subscribe(details => {
         this.allDetails = this.currentDetails = details;
-      })
+      });
     }
   }
 
   showChart(data: GradeDistribute[]) {
-    let counts = [];
-    let labels = [];
+    const counts = [];
+    const labels = [];
     data.forEach(g => {
       counts.push(g.count);
       labels.push(g.label);

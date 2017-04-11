@@ -1,15 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { RouteReuseStrategy, RouterModule } from "@angular/router";
-import { CustomReuseStrategy, rootRouterConfig } from "./app.route";
-import { LoginComponent } from "./auth/login/login.component";
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
+import { CustomReuseStrategy, rootRouterConfig } from './app.route';
+import { LoginComponent } from './auth/login/login.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
-import { AuthService } from "./service/auth.service";
-import { ShareModule } from "./share.module";
+import { AuthService } from './service/auth.service';
+import { ShareModule } from './shared/share.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { ShareModule } from "./share.module";
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
     RouterModule.forRoot(rootRouterConfig),
     ShareModule

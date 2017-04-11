@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GradesService } from "../../service/grades.service";
-import { TermInfo } from "../grade.model";
+import { GradesService } from '../../service/grades.service';
+import { TermInfo } from '../grade.model';
 
 @Component({
   selector: 'app-personal-grades',

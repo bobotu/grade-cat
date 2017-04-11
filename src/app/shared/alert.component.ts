@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core"
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: "app-alert",
+  selector: 'app-alert',
   template: `
     <div *ngIf="show">
       <div class="weui-mask"></div>
@@ -29,10 +29,10 @@ import { Component, EventEmitter, Input, Output } from "@angular/core"
     </div>`
 })
 export class AlertComponent {
-  @Input() show: boolean = false;
-  @Input() title: string = "";
-  @Input() confirmText: string = "确定";
-  @Input() alternativeText: string = "";
+  @Input() show = false;
+  @Input() title = '';
+  @Input() confirmText = '确定';
+  @Input() alternativeText = '';
   @Output('confirm') onConfirm = new EventEmitter<boolean>();
   @Output('alternative') onAlternative = new EventEmitter<boolean>();
 }

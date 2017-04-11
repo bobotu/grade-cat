@@ -1,20 +1,20 @@
-import { ActivatedRouteSnapshot, DetachedRouteHandle, Routes, RouteReuseStrategy } from "@angular/router";
-import { LoginComponent } from "./auth/login/login.component";
-import { ChangePasswordComponent } from "./auth/change-password/change-password.component";
-import { Injectable } from "@angular/core";
-import { AuthService } from "./service/auth.service";
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Routes, RouteReuseStrategy } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { ChangePasswordComponent } from './auth/change-password/change-password.component';
+import { Injectable } from '@angular/core';
+import { AuthService } from './service/auth.service';
 
 export const rootRouterConfig: Routes = [
-  {path: "", pathMatch: "full", redirectTo: "auth"},
+  {path: '', pathMatch: 'full', redirectTo: 'auth'},
   {
-    path: "auth",
+    path: 'auth',
     children: [
-      {path: "", pathMatch: "full", redirectTo: "login"},
-      {path: "login", component: LoginComponent},
-      {path: "change", component: ChangePasswordComponent}
+      {path: '', pathMatch: 'full', redirectTo: 'login'},
+      {path: 'login', component: LoginComponent},
+      {path: 'change', component: ChangePasswordComponent}
     ]
   },
-  {path: "grade", loadChildren: "./grade/grade.module#GradeModule"}
+  {path: 'grade', loadChildren: './grade/grade.module#GradeModule'}
 ];
 
 @Injectable()
@@ -37,8 +37,12 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
   }
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    if (!route.routeConfig) return null;
-    if (route.routeConfig.path.indexOf("/auth") >= 0) return null;
+    if (!route.routeConfig) {
+      return null;
+    }
+    if (route.routeConfig.path.indexOf('/auth') >= 0) {
+      return null;
+    }
 
     if (this.token !== this._auth.token) {
       this.token = this._auth.token;

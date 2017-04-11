@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GradeDetail } from "../grade.model";
+import { GradeDetail } from '../grade.model';
 
 @Pipe({
   name: 'gradeFormat'
@@ -22,7 +22,7 @@ export class GradeFormatPipe implements PipeTransform {
       return value.special;
     }
     else if (value.score < 0) {
-      return "-";
+      return '-';
     } else {
       return value.score.toString();
     }
@@ -30,7 +30,7 @@ export class GradeFormatPipe implements PipeTransform {
 
   static transformDev(value: GradeDetail): string {
     if (value.isSpecial || value.score < 0) {
-      return "-";
+      return '-';
     } else if (value.dev > 0) {
       return '+' + value.dev.toFixed(2);
     } else {
