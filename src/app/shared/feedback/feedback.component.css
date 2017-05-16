@@ -2,11 +2,6 @@
   height: 100%;
   width: 100%;
 
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 3000;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,14 +15,8 @@
   align-items: stretch;
 
   position: relative;
-  padding: 15px 0;
-  z-index: 5000;
-  max-height: calc(100% - 100px);
-  width: calc(100% - 50px);
-  overflow-y: scroll;
 
   background-color: #FFFFFF;
-  border-radius: 5px;
 }
 
 .cancel {
@@ -42,7 +31,15 @@
 }
 
 .submit {
-  margin-top: 20px;
-  width: calc(100% - 50px);
-  align-self: center;
+  display: block;
+  margin: 15px auto;
+}
+
+.alter {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 9999;
 }

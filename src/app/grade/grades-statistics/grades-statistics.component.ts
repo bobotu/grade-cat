@@ -15,7 +15,6 @@ export class GradesStatisticsComponent implements OnInit {
   mean: string;
   rank: string;
 
-  feedback = false;
   about = false;
 
   constructor(private _grades: GradesService,

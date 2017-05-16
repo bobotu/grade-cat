@@ -41,7 +41,6 @@ export class GradesService implements OnDestroy {
   }
 
   fetchGradeData(): Observable<boolean> {
-    console.log('ppm');
     const version = localStorage.getItem(VERSION_KEY);
     if (!version) {
       return this.fetchFromRemote()
@@ -148,7 +147,6 @@ export class GradesService implements OnDestroy {
   }
 
   reset() {
-    console.log('fuck');
     this.name = '';
     this.mean = '';
     this.rank = '';

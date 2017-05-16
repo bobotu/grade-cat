@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../service/auth.service';
 import { Http } from '@angular/http';
+import { Location } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-feedback',
@@ -9,11 +11,7 @@ import { Http } from '@angular/http';
   styleUrls: ['./feedback.component.css']
 })
 export class FeedbackComponent {
-
-  @Input() show = false;
-  @Output() onClose = new EventEmitter<boolean>();
-
-  uploading = false;
+  loading = false;
   error = false;
   done = false;
 
@@ -23,27 +21,31 @@ export class FeedbackComponent {
   imgUrls: string[] = [];
 
   constructor(private _auth: AuthService,
-              private http: Http) { }
+              private http: Http,
+              private _location: Location) { }
 
-  submit() {
+  submit(fbForm: FormControl) {
+    if (fbForm.invalid) {
+      return;
+    }
     const form = new FormData();
     form.append('jwt', this._auth.token);
     form.append('description', this.description);
     form.append('email', this.email);
     this.imgs.forEach(img => form.append('imgs', img));
 
-    this.uploading = true;
+    this.loading = true;
     this.done = false;
     this.error = false;
 
     this.http.post(`${environment.API_URL}/api/feedback`, form)
       .subscribe(
         ok => {
-          this.uploading = false;
+          this.loading = false;
           this.done = true;
         },
         err => {
-          this.uploading = false;
+          this.loading = false;
           this.error = true;
         }
       );
@@ -61,10 +63,10 @@ export class FeedbackComponent {
     this.imgUrls = [];
     this.email = '';
     this.description = '';
-    this.uploading = false;
+    this.loading = false;
     this.error = false;
     this.done = false;
-    this.onClose.emit(true);
+    this._location.back();
   }
 
   track(_: number, url: string) {

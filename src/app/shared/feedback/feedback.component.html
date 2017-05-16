@@ -1,9 +1,8 @@
-<div *ngIf="show" class="container">
-  <div class="weui-mask"></div>
+<div class="container">
   <div class="dialog">
     <i (click)="close()" class="weui-icon-cancel cancel"></i>
     <h1 class="title">错误反馈</h1>
-    <form class="weui-cells_form" (ngSubmit)="submit()" #fbForm="ngForm" novalidate>
+    <form class="weui-cells_form" (ngSubmit)="submit(fbForm)" #fbForm="ngForm" novalidate>
       <p class="weui-cells__title">联系信息</p>
       <div class="weui-cells">
         <div class="weui-cell" [class.weui-cell_warn]="emailInput.touched && !emailInput.valid">
@@ -59,8 +58,8 @@
         </div>
       </div>
 
-      <button *ngIf="!loading && !error && !done" class="weui-btn weui-btn_primary submit">
-        <i class="weui-loading" *ngIf="uploading"></i>
+      <button *ngIf="!loading && !error && !done" class="weui-btn weui-btn_primary submit" [disabled]="fbForm.untouched">
+        <i class="weui-loading" *ngIf="loading"></i>
         提交反馈
       </button>
       <button *ngIf="loading && !done" class="weui-btn weui-btn_primary submit weui-btn_loading" disabled>

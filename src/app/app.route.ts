@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import { Injectable } from '@angular/core';
 import { AuthService } from './service/auth.service';
+import { FeedbackComponent } from './shared/feedback/feedback.component';
 
 export const rootRouterConfig: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'auth'},
@@ -14,7 +15,8 @@ export const rootRouterConfig: Routes = [
       {path: 'change', component: ChangePasswordComponent}
     ]
   },
-  {path: 'grade', loadChildren: './grade/grade.module#GradeModule'}
+  {path: 'grade', loadChildren: './grade/grade.module#GradeModule'},
+  {path: 'feedback', component: FeedbackComponent}
 ];
 
 @Injectable()
